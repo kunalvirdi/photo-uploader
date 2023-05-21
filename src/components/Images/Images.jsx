@@ -4,18 +4,18 @@ import './image.css'
 const Images=()=>{
     const [images,setImages]=useState(null);
     const [message,setMessage]=useState('');
+    const url=process.env.API_URL || 'https://photo-uploader-api.vercel.app'
     useEffect(()=>{
         if(!images){
             setMessage('Loading images from the server....')
-            fetch(`http://52.203.214.42:5000/post`,{method:'GET'}).then((res)=>{
+            fetch(`${url}/post`,{method:'GET'}).then((res)=>{
                 return res.json()
             }).then(data=>{
                 setImages(data);
-                console.log(data)
                 setMessage('')
             }).catch(e=>console.log(e));
         }
-    },[images])
+    },[images,url])
     return(
         <>
             <h1>Images from the Server</h1>

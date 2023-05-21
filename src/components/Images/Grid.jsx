@@ -1,14 +1,17 @@
 import styles from './grid.module.css'
 import {useState} from "react";
 const Grid=({images})=>{
+    console.log(images)
     const [message,setMessage]=useState('');
     const [classname,setClassname]=useState('hidden')
+    const url=process.env.API_URL || 'https://photo-uploader-api.vercel.app'
+
     const clickHandler= async (e)=>{
         const formData=new FormData()
         formData.append('imageUrl',e.target.className);
         setMessage('Deleting Image...')
         setClassname('')
-        const response=await fetch('http://52.203.214.42:5000/delete',{
+        const response=await fetch(`${url}/delete`,{
             method:'POST',
             body:formData
         })
@@ -27,7 +30,7 @@ const Grid=({images})=>{
                 {images.map(image=>{
                     return(
                         <div key={image._id} className={styles.image} >
-                            <img className={image.imageUrl} src={`http://52.203.214.42:5000/${image.imageUrl}`} onClick={clickHandler} alt={image.name} />
+                            <img className={image.imageUrl} src={`${image.imageUrl}`} onClick={clickHandler} alt={image.name} />
                         </div>
                     )
                 })}

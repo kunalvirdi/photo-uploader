@@ -7,6 +7,7 @@ const Form=()=>{
     const [message,setMessage]=useState('');
     const [previewImage,setPreviewImage]=useState({url:"",name:""});
     const [loader,setLoader]=useState('');
+    const url=process.env.API_URL || 'https://photo-uploader-api.vercel.app'
     useEffect(()=>{
         if(image){
             setPreviewImage({url: URL.createObjectURL(image), name: image.name});
@@ -24,13 +25,13 @@ const Form=()=>{
         const formData=new FormData();
         formData.append('image',image);
         try{
-            const response = await fetch(`http://52.203.214.42:5000/post`,{
+            const response = await fetch(`${url}/post`,{
                 method:"POST",
                 body:formData
             });
             const d=await response.json();
             setLoader('')
-            if(d.body.status=='ok'){
+            if(d.body.status==='ok'){
                 setClassName("success");
             }else{
                 setClassName("error")
@@ -41,7 +42,7 @@ const Form=()=>{
             setMessage(d.body.message);
 
         }catch (error){
-            console.log(error.body.message)
+            console.log(error)
         }
     }
     return(
